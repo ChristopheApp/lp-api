@@ -3,6 +3,10 @@ import type { Stream } from '~~/types/streams'
 import { NotFoundException } from '~/utils/exceptions'
 
 import api, {getAppAcessToken, getOAuthUserToken} from "~/resources/twitch/twitch.config"
+import { apiData } from '~/data'
+
+const data = apiData;
+
 
 
 export class TwitchService {
@@ -14,17 +18,20 @@ export class TwitchService {
   /**
    * Obtenir un access token pour l'utiliser dans les requêtes
    */
- getAccessToken(): any {
-    return getAppAcessToken();
+  getAccessToken(): any {
+  return getAppAcessToken()
   }
 
 //   /**
-//    * Trouve un animal en particulier
+//    * Trouve les stream sur un jeu en particulier
 //    * @param id - ID unique de l'animal
 //    */
-//   findOne(id: number): Stream | undefined {
-//     return this.pets.find(pet => pet.id === id)
-//   }
+  async getStreamsByGameName(game_id: string): Promise<Stream[] | undefined> {
+    const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${game_id}`)
+    console.log(res)
+    const streams: Stream[] = res.data.data
+    return streams
+  }
 
 //   /**
 //    * Met à jour un animal en particulier

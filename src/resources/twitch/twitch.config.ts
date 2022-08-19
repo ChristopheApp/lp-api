@@ -14,14 +14,18 @@ headers: {
 export default api
 
 export const getAppAcessToken = async () => {
-    const response = await axios.post('https://id.twitch.tv/oauth2/token', {
-        grant_type: 'client_credentials',
-        client_id: data.client_id,
-        client_secret: data.client_secret
-    })
-    .then(response => console.log(response))
-    .catch(err => console.error(err))
-    return response
+    try {
+        const response = await axios.post('https://id.twitch.tv/oauth2/token', {
+            grant_type: 'client_credentials',
+            client_id: data.client_id,
+            client_secret: data.client_secret
+        })
+        console.log(response.status)
+        return response
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getOAuthUserToken = async () => {

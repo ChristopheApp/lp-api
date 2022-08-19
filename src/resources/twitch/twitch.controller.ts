@@ -16,10 +16,21 @@ const service = new TwitchService()
 /**
  * Trouve tous les animaux
  */
-TwitchController.get('/access-token', (req, res) => {
+TwitchController.get('/access-token', async (req, res) => {
+  const result = await service.getAccessToken()
+  console.log(result)
   return res
     .status(200)
-    .json(service.getAccessToken())
+    .json({status: result.status, data: result.data})
+})
+
+TwitchController.get('/streams/:id', async (req, res) => {
+  const result = await service.getStreamsByGameName(req.params.id)
+  console.log(result)
+  return res
+
+    .status(200)
+    .json({data: result})
 })
 
 // /**

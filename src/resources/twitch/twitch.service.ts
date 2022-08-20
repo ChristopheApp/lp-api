@@ -33,6 +33,13 @@ export class TwitchService {
     return streams
   }
 
+  async getGtaStreams(): Promise<Stream[] | undefined> {
+    const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${data.gta_game_id}`)
+    console.log(res)
+    const streams: Stream[] = res.data.data
+    return streams
+  }
+
 //   /**
 //    * Met à jour un animal en particulier
 //    *

@@ -24,11 +24,17 @@ TwitchController.get('/access-token', async (req, res) => {
     .json({status: result.status, data: result.data})
 })
 
-TwitchController.get('/streams/:id', async (req, res) => {
-  const result = await service.getStreamsByGameName(req.params.id)
+TwitchController.get('/gta-streams', async (req, res) => {
+  const result = await service.getGtaStreams();
+  return res
+    .status(200)
+    .json({data: result})
+})
+
+TwitchController.get('/streams/:gameId', async (req, res) => {
+  const result = await service.getStreamsByGameName(req.params.gameId)
   console.log(result)
   return res
-
     .status(200)
     .json({data: result})
 })

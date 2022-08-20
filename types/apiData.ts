@@ -5,8 +5,8 @@ export interface data {
     redirect_uri: string
     response_type: string
     scope: string
-    game_name: string
-    game_id: string
+    gta_game_name: string
+    gta_game_id: string
     language: string
     limit: string
     use_follows: boolean

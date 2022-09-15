@@ -1,4 +1,6 @@
 import type { Stream } from '~~/types/streams'
+import axios from 'axios'
+
 //import { pets } from '~/data'
 import { NotFoundException } from '~/utils/exceptions'
 
@@ -22,21 +24,56 @@ export class TwitchService {
   return getAppAcessToken()
   }
 
+  async getGameId(game_name: string): Promise<any> {
+    const res = await api.get(`https://api.twitch.tv/helix/games?name=${game_name}`)
+    // console.log(res.data.data)
+    return res.data.data
+  }
+
 //   /**
 //    * Trouve les stream sur un jeu en particulier
 //    * @param id - ID unique de l'animal
 //    */
-  async getStreamsByGameName(game_id: string): Promise<Stream[] | undefined> {
+  async getStreamsByGameId(game_id: string): Promise<Stream[] | undefined> {
     const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${game_id}`)
-    console.log(res)
+    // console.log(res)
     const streams: Stream[] = res.data.data
     return streams
   }
 
   async getGtaStreams(): Promise<Stream[] | undefined> {
-    const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${data.gta_game_id}`)
-    console.log(res)
+    const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${data.gta_game_id}&first=100`)
+    // console.log(res)
     const streams: Stream[] = res.data.data
+    return streams
+  }
+
+  async getRdrStreams(): Promise<Stream[] | undefined> {
+    const res = await api.get(`https://api.twitch.tv/helix/streams?game_id=${data.rdr_game_id}`)
+    // console.log(res)
+    const streams: Stream[] = res.data.data
+    return streams
+  }
+
+  async get21jcStreams(): Promise<any | undefined> {
+    const gtaStreams = await this.getGtaStreams();
+    // const gtaStreams = axios.get('http://localhost:3000/twitch/gta-streams')
+    let streams: Stream[] = [];
+    if(gtaStreams) {
+      for(let i = 0; i < gtaStreams.length; i++) {
+        if(data.regExp21JC.test(gtaStreams[i].title)) {
+          streams.push(gtaStreams[i])
+        }
+      }
+    }
+
+
+    // gtaStreams.forEach((stream :Stream) => { 
+    //   if (stream.title === '21jc') {
+    //     streams.push(stream);
+    //   }
+    // });
+
     return streams
   }
 

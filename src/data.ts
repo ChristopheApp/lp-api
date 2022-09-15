@@ -18,6 +18,8 @@ export const apiData: data = {
     scope: "user:read:follows",
     gta_game_name: "Grand Theft Auto V",
     gta_game_id: "32982",
+    rdr_game_name: "Red Dead Redemption 2",
+    rdr_game_id: "493959",
     language: "fr",
     limit: "100",
     use_follows: false,
@@ -25,5 +27,6 @@ export const apiData: data = {
     // J'ai autorisé le read follow sur mon compte pour les 2 apps enregistrées sur Twitch.
     regExp21JC: /(21 *[jJ][uU][mM][pP] *[cC][lL][iI][cC][kK])|(21 *[jJ] *[cC])/,
     regExpLP: /([lL][oO][sS] *[pP][lL][aA][nN][tT][oO][sS])/,
+    regExpSpirit: /([sS][pP][iI][rR][iI][tT] *[rR][pP])/,
     
 }

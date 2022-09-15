@@ -1,12 +1,10 @@
 import { Router } from 'express'
 import { TwitchService } from '~/resources/twitch/twitch.service'
 import { BadRequestException, NotFoundException } from '~/utils/exceptions'
-import api from "~/resources/twitch/twitch.config"
 /**
  * Nous créeons un `Router` Express, il nous permet de créer des routes en dehors du fichier `src/index.ts`
  */
 const TwitchController = Router()
-const API = api;
 
 /**
  * Instance de notre service
@@ -24,6 +22,14 @@ TwitchController.get('/access-token', async (req, res) => {
     .json({status: result.status, data: result.data})
 })
 
+TwitchController.get('/getGameId/:gameName', async (req, res) => {
+  const result = await service.getGameId(req.params.gameName)
+  //console.log(result)
+  return res
+    .status(200)
+    .json({data: result})
+})
+
 TwitchController.get('/gta-streams', async (req, res) => {
   const result = await service.getGtaStreams();
   return res
@@ -31,9 +37,24 @@ TwitchController.get('/gta-streams', async (req, res) => {
     .json({data: result})
 })
 
+TwitchController.get('/rdr-streams', async (req, res) => {
+  const result = await service.getRdrStreams();
+  return res
+    .status(200)
+    .json({data: result})
+})
+
 TwitchController.get('/streams/:gameId', async (req, res) => {
-  const result = await service.getStreamsByGameName(req.params.gameId)
+  const result = await service.getStreamsByGameId(req.params.gameId)
   console.log(result)
+  return res
+    .status(200)
+    .json({data: result})
+})
+
+TwitchController.get('/21jc-streams', async (req, res) => {
+  const result = await service.get21jcStreams();
+  // console.log(result.length)
   return res
     .status(200)
     .json({data: result})
